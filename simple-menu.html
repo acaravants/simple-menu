@@ -1,0 +1,44 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../app-route/app-route.html">
+
+<dom-module id="simple-menu">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]!</h2>
+      <app-location route="{{route}}"></app-location>
+      <app-route
+              route="{{route}}"
+              pattern="/:page"
+              data="{{data}}"
+              tail="{{tail}}">
+      </app-route>
+  </template>
+
+  <script>
+    /**
+     * `simple-menu`
+     * simple menu polymer project
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class SimpleMenu extends Polymer.Element {
+      static get is() { return 'simple-menu'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'simple-menu'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(SimpleMenu.is, SimpleMenu);
+  </script>
+</dom-module>
