@@ -1,24 +1,70 @@
 <link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../app-route/app-route.html">
 
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+
 <dom-module id="simple-menu">
   <template>
-    <style>
+ 
+ <style>
       :host {
         display: block;
+        height: 100px;
       }
     </style>
-    <h2>Hello [[prop1]]!</h2>
-      <app-location route="{{route}}"></app-location>
-      <app-route
-              route="{{route}}"
-              pattern="/:page"
-              data="{{data}}"
-              tail="{{tail}}">
-      </app-route>
+   
+     <app-location route="{{route}}"></app-location>
+        <app-route
+                route="{{route}}"
+                pattern="/:page"
+                data="{{routePage}}"
+                tail="{{subroute}}">
+        </app-route>
+
+        <app-drawer-layout fullbleed>
+            <app-drawer swipe-open slot="drawer">
+                <app-header-layout has-scrolling-region>
+                    <app-header fixed slot="header">
+                        <h2>Menu</h2>
+                    </app-header>
+                    <iron-selector  selected="{{routePage.page}}" 
+                                    attr-for-selected="name" 
+                                    class="drawer-list"
+                                    role="navigation" >
+                    <li><a name="page2" href="page1">Inicio</a></li>
+                    <li><a name="page1" href="page2">Lista usuarios</a></li>
+                    <li><a name="page3" href="page3">Politicas</a></li>
+                </iron-selector>
+                </app-header-layout>
+            </app-drawer>
+            <iron-pages 
+                        selected="{{routePage.page}}"
+                        attr-for-selected="name"
+                        fallback-selection="page1"
+                        role="main">
+                <div name="page2">
+                    <h2>¿No estás inscrito aún?</h2>
+                    <paper-input id="name" label="Introduce tu nombre completo"></paper-input>
+                    <paper-button class="actions" on-tap="saveNewParticipant">Inscribirse</paper-button>
+
+                    <h1>Lista de asistencia</h1>
+                </div>
+                <div name="page1">
+                    <h2>Welcome Central Academic</h2>
+                    <p>Cursos y especialidades... Juega, Toca y Aprende</p>
+                </div>
+                <div name="page3">
+                    <h4>Terminos y condiciones</h4> 
+                    <p>Estas en curso </p>
+                </div>
+            </iron-pages>
+        </app-drawer-layout>
+  
   </template>
 
-  <script>
+   <script>
     /**
      * `simple-menu`
      * simple menu polymer project
@@ -32,13 +78,17 @@
       static get properties() {
         return {
           prop1: {
-            type: String,
-            value: 'simple-menu'
+            type: Object,
+            value: {}
           }
-        };
+        };  
+      }
+      readyFunction(){
+        this.async(function(){
+          this.set('route.path','/');
+        },100);
       }
     }
-
     window.customElements.define(SimpleMenu.is, SimpleMenu);
-  </script>
+  </script> 
 </dom-module>
